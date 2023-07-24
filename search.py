@@ -16,7 +16,7 @@
 In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
-
+ 
 import util
 
 class SearchProblem:
@@ -73,30 +73,87 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem: SearchProblem):
-    """
-    Search the deepest nodes in the search tree first.
-
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
-
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-    """
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    visited = [] #list
+    path = [] #list
+    total_cost = 0
+    frontier = util.Stack() #que at the first node - start state
+    start = problem.getStartState()
+    frontier.push((start, path, total_cost))
+    goal_found = False
+    while not goal_found:
+        if not frontier.isEmpty():
+            node, path, total_cost = frontier.pop()
+            if (problem.isGoalState(node)):
+                print("Goal found")
+                goal_found = True 
+                return path
+            else:
+                visited.append(node)
+                for child in (problem.getSuccessors(node)):  
+                    if child[0] not in visited:
+                        frontier.push((child[0], path+[child[1]], child[2]))
+        else:
+            print("No solution found")
+            return []
 
 def breadthFirstSearch(problem: SearchProblem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    visited = [] #list
+    path = [] #list
+    total_cost = 0
+    frontier = util.Queue() #que at the first node - start state
+    start = problem.getStartState()
+    frontier.push((start, path, total_cost))
+    goal_found = False
+    while not goal_found:
+        if not frontier.isEmpty():
+            node, path, total_cost = frontier.pop()
+            if (problem.isGoalState(node)):
+                print("Goal found")
+                goal_found = True 
+                return path
+            else:
+                visited.append(node)
+                for child in (problem.getSuccessors(node)):  
+                    if child[0] not in visited:
+                        frontier.push((child[0], path+[child[1]], child[2]))
+        else:
+            print("No solution found")
+            return []
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    visited = [] #list
+    path = [] #list
+    total_cost = 0
+    frontier = util.PriorityQueue() #que at the first node - start state
+    start = problem.getStartState()
+    frontier.push((start, path, total_cost))
+    goal_found = False
+    while not goal_found:
+        if not frontier.isEmpty():
+            node, path, total_cost = frontier.pop()
+            if (problem.isGoalState(node)):
+                print("Goal found")
+                goal_found = True 
+                return path
+            else:
+                visited.append(node)
+                for child in (problem.getSuccessors(node)):  
+                    if child[0] not in visited:
+                        frontier.push((child[0], path+[child[1]], child[2]))
+        else:
+            print("No solution found")
+            return []
 
 def nullHeuristic(state, problem=None):
     """
