@@ -137,7 +137,7 @@ def uniformCostSearch(problem: SearchProblem):
     total_cost = 0
     frontier = util.PriorityQueue() #que at the first node - start state
     start = problem.getStartState()
-    frontier.push((start, path, total_cost))
+    frontier.push((start, path, total_cost), total_cost)
     goal_found = False
     while not goal_found:
         if not frontier.isEmpty():
@@ -150,7 +150,7 @@ def uniformCostSearch(problem: SearchProblem):
                 visited.append(node)
                 for child in (problem.getSuccessors(node)):  
                     if child[0] not in visited:
-                        frontier.push((child[0], path+[child[1]], child[2]))
+                        frontier.push((child[0], path+[child[1]], child[2]), total_cost)
         else:
             print("No solution found")
             return []
@@ -162,11 +162,43 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
-def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
+def aStarSearch(problem: SearchProblem, heuristic=util.manhattanDistance):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    visited = [] #list
+    path = [] #list
+    total_cost = 0
+    frontier = util.PriorityQueue() #que at the first node - start state
+    start = problem.getStartState()
+    frontier.push((start, path, total_cost), total_cost)
+    goal_found = False
+    while not goal_found:
+        if not frontier.isEmpty():
+            node, path, total_cost = frontier.pop()
+            if (problem.isGoalState(node)):
+                print("Goal found")
+                goal_found = True 
+                return path
+            else:
+                visited.append(node)
 
+                pushed_child = [(())]
+                for child in (problem.getSuccessors(node)):  
+                    if child[0] not in visited:
+                        #get the child with the least distance
+                        for children in (problem.getSuccessors(node)):
+                            child_distance = manhattanDistance(child[0], problem.goal)
+                            children_distance = manhattanDistance(children[0], problem.goal)
+
+
+                        frontier.push((child[0], path+[child[1]], child[2]), total_cost)
+            
+        else:
+            print("No solution found")
+            return []
 
 # Abbreviations
 bfs = breadthFirstSearch
