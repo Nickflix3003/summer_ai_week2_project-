@@ -146,6 +146,19 @@ class Stack:
     def isEmpty(self):
         "Returns true if the stack is empty"
         return len(self.list) == 0
+    
+    def contains(self, item):
+        return item in self.list
+    
+    def __len__(self):
+        return len(self.list)
+    
+    #how do i make this function iterable?
+    def __iter__(self):
+       return self.list.__iter__()
+    
+    def __str__(self):
+        return str(self.list)
 
 class Queue:
     "A container with a first-in-first-out (FIFO) queuing policy."
@@ -162,6 +175,9 @@ class Queue:
           operation removes the item from the queue.
         """
         return self.list.pop()
+    
+    def contains(self, item):
+        return item in self.list
 
     def isEmpty(self):
         "Returns true if the queue is empty"
